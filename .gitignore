@@ -1,0 +1,9 @@
+node_modules/
+.env
+.DS_Store
+*.log
+backend/database/shop.db
+backend/database/shop.db-shm
+backend/database/shop.db-wal
+backend/database/migrations/.umzug.json
+frontend/dist/

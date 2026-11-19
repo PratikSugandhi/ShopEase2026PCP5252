@@ -1,0 +1,26 @@
+{
+  "annotations": {"list": []},
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {"datasource":{"type":"prometheus","uid":"shopease-prometheus"},"fieldConfig":{"defaults":{"unit":"reqps","color":{"mode":"palette-classic"}},"overrides":[]},"gridPos":{"h":8,"w":12,"x":0,"y":0},"id":1,"options":{"legend":{"displayMode":"list","placement":"bottom"},"tooltip":{"mode":"single"}},"targets":[{"expr":"sum(rate(shopease_http_requests_total[1m]))","legendFormat":"requests/sec","refId":"A"}],"title":"HTTP request volume","type":"timeseries"},
+    {"datasource":{"type":"prometheus","uid":"shopease-prometheus"},"fieldConfig":{"defaults":{"unit":"s","color":{"mode":"palette-classic"}},"overrides":[]},"gridPos":{"h":8,"w":12,"x":12,"y":0},"id":2,"options":{"legend":{"displayMode":"list","placement":"bottom"},"tooltip":{"mode":"single"}},"targets":[{"expr":"histogram_quantile(0.95, sum by (le) (rate(shopease_http_request_duration_seconds_bucket[5m])))","legendFormat":"p95 latency","refId":"A"},{"expr":"histogram_quantile(0.50, sum by (le) (rate(shopease_http_request_duration_seconds_bucket[5m])))","legendFormat":"p50 latency","refId":"B"}],"title":"HTTP request latency","type":"timeseries"},
+    {"datasource":{"type":"prometheus","uid":"shopease-prometheus"},"fieldConfig":{"defaults":{"unit":"percent","min":0,"max":100},"overrides":[]},"gridPos":{"h":8,"w":12,"x":0,"y":8},"id":3,"options":{"legend":{"displayMode":"list","placement":"bottom"},"tooltip":{"mode":"single"}},"targets":[{"expr":"100 * sum(rate(shopease_http_request_errors_total[5m])) / clamp_min(sum(rate(shopease_http_requests_total[5m])), 0.000001)","legendFormat":"error rate","refId":"A"}],"title":"HTTP error rate (%)","type":"timeseries"},
+    {"datasource":{"type":"prometheus","uid":"shopease-prometheus"},"fieldConfig":{"defaults":{"unit":"short","color":{"mode":"palette-classic"}},"overrides":[]},"gridPos":{"h":8,"w":12,"x":12,"y":8},"id":4,"options":{"legend":{"displayMode":"list","placement":"bottom"},"tooltip":{"mode":"single"}},"targets":[{"expr":"increase(shopease_cart_items_added_total[5m])","legendFormat":"items added (5m)","refId":"A"}],"title":"Products added to carts (5m)","type":"timeseries"},
+    {"datasource":{"type":"prometheus","uid":"shopease-prometheus"},"fieldConfig":{"defaults":{"unit":"reqps"},"overrides":[]},"gridPos":{"h":7,"w":24,"x":0,"y":16},"id":5,"options":{"legend":{"displayMode":"table","placement":"bottom"},"tooltip":{"mode":"multi"}},"targets":[{"expr":"sum by (route, status_code) (rate(shopease_http_requests_total[5m]))","legendFormat":"{{route}} · {{status_code}}","refId":"A"}],"title":"Requests by endpoint and status","type":"timeseries"}
+  ],
+  "refresh": "5s",
+  "schemaVersion": 39,
+  "tags": ["shopease", "ecommerce", "lab-assignment"],
+  "templating": {"list": []},
+  "time": {"from": "now-15m", "to": "now"},
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "ShopEase Application Monitoring",
+  "uid": "shopease-overview",
+  "version": 1
+}
